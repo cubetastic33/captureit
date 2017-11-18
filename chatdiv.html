@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Capture it | chat</title>
+  <link href="https://fonts.googleapis.com/css?family=Bungee+Inline|Share+Tech" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script>var signin = 'chatDiv';</script>
+</head>
+<body id="chat-holder">
+  <header>
+    <button class="backToGroup" onclick="goBackToGroups()"><- Back</button>
+    <h3 id="groupHeading"></h3>
+    <button onclick="openGroupSettings()">Settings</button>
+  </header>
+  <div id="groupSettings">
+    <button onclick="addMemberForm()">Add member</button>
+    <button onclick="openGroupSettings()">Back</button>
+  </div>
+  <form id="newGroup"></form>
+  <form id="addMember"></form>
+  <div id="insideGroup">
+    <div class="textWrapper">
+      <span id="messages"></span>
+    </div>
+  </div>
+  <button id="newGroupBtn" onclick="newGroup()">+ New group</button>
+  <div id="groupOption"></div>
+  <footer>
+    <input type="text" id="chatMessage" placeholder="Enter your message here...">
+    <span class="send" onclick="initializeMessage()">send</span>
+  </footer>
+</body>
+<script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
+<script src="js/main.js"></script>
+<script src="js/chat.js"></script>
+</html>
