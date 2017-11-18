@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Capture it | Sign in</title>
+  <link rel="icon" href="images/icon.png">
+  <link href="https://fonts.googleapis.com/css?family=Bungee+Inline|Share+Tech" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script>
+    var signin = true;
+    function hideloader() {
+      $("#loading").hide();
+      $("#hidden").show();
+    }
+  </script>
+</head>
+<body onload="hideloader()">
+  <div id="loading"></div>
+  <div id="hidden" style="display: hidden">
+    <header>
+      <h1>Capture it</h1>
+    </header>
+    <div id="div">
+      <div id="formHeading">Sign in</div><br>
+      <form id="signIn">
+        <div id="firebaseui-auth-container"></div>
+      </form>
+    </div>
+    <footer>
+      Created by Aravindan, Aathesh, and Gokul of class 9A<sub>1</sub>.
+    </footer>
+  </div>
+</body>
+<script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
+<script src="https://cdn.firebase.com/libs/firebaseui/2.4.1/firebaseui.js"></script>
+<link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.4.1/firebaseui.css" />
+<script src="js/main.js"></script>
+</html>
