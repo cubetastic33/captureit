@@ -1,0 +1,290 @@
+/*
+  Common stuff in all pages
+*/
+
+body {
+  background-color: dodgerblue;
+  margin: 0;
+}
+
+header {
+  background-color: #ffc000;
+  color: dodgerblue;
+  font-family: bungee inline;
+  font-size: 2em;
+  padding: 1px 1em;
+}
+
+#div {
+  font-family: share tech;
+  font-size: 1.5em;
+  padding: 1em;
+}
+
+#loggedStatus {
+  background-color: #222;
+  border: 2px solid dodgerblue;
+  border-radius: 5px;
+  float: right;
+  margin-top: -130px;
+  padding-right: 20px;
+}
+
+#loggedStatus li {
+  transform: translateX(0px);
+  color: rgb(190, 190, 190);
+  font-family: share tech;
+  font-size: 35px;
+  list-style-type: none;
+}
+
+#loggedStatus .logout li {
+  font-size: 25px;
+  transform: translateX(-30px);
+}
+
+#loggedStatus a {
+  color: rgb(190, 190, 190);
+  font-family: share tech;
+  text-decoration: none;
+}
+
+.logout li a {
+  padding: 8px;
+}
+
+#loggedStatus li ul {
+  display: none;
+}
+
+#loggedStatus ul li:hover ul {
+  display: block;
+}
+
+#loggedStatus ul li ul li a:hover {
+  background-color: rgb(190, 190, 190);
+  color: #222;
+}
+
+footer {
+  background-color: #ffc000;
+  font-family: bungee inline;
+}
+
+/*
+  Sign in form
+*/
+
+
+#formHeading {
+  background-color: #ffc000;
+  border-radius: 7px 7px 0 0;
+  color: navy;
+  font-family: bungee inline;
+  font-size: 1.5em;
+  text-align: center;
+  height: 40px;
+  margin: 2vh 30% 0 30%;
+  padding-top: 0em;
+}
+
+#signIn {
+  background-color: navy;
+  border-bottom: 2px solid blue;
+  border-left: 2px solid blue;
+  border-right: 2px solid blue;
+  border-radius: 0 0 7px 7px;
+  color: #ffc000;
+  margin: -27px 30% 0 30%;
+  padding-left: 1%;
+  padding-top: 10px;
+}
+
+/*
+  Game
+*/
+
+#gameBoard {
+  border: 2px solid #ffc000;
+  height: 600px;
+  width: 600px;
+  position: absolute;
+  right: 4vw;
+  overflow: hidden;
+}
+
+.empty {
+  background-color: #777;
+  border: 1px solid #ffc000;
+  height: 98px;
+  width: 98px;
+}
+
+.ally {
+  background-color: navy;
+  border: 1px solid #ffc000;
+  height: 98px;
+  width: 98px;
+}
+
+.enemy {
+  background-color: red;
+  border: 1px solid #ffc000;
+  height: 98px;
+  width: 98px;
+}
+
+.selected {
+  filter: brightness(65%);
+}
+
+#c1, #c7, #c13, #c19, #c25, #c31 {
+  position: relative;
+  left: 100px;
+  top: -600px;
+}
+
+#c2, #c8, #c14, #c20, #c26, #c32 {
+  position: relative;
+  left: 200px;
+  top: -1200px;
+}
+
+#c3, #c9, #c15, #c21, #c27, #c33 {
+  position: relative;
+  left: 300px;
+  top: -1800px;
+}
+
+#c4, #c10, #c16, #c22, #c28, #c34 {
+  position: relative;
+  left: 400px;
+  top: -2400px;
+}
+
+#c5, #c11, #c17, #c23, #c29, #c35 {
+  position: relative;
+  left: 500px;
+  top: -3000px;
+}
+
+/*
+  Chat
+*/
+
+#chat {
+  background-color: white;
+  height: 600px;
+  width: 500px;
+}
+
+#chat-holder {
+	background-color: rgb(255, 212, 85);
+}
+
+#chat-holder header {
+	background-color: #333;
+	height: 12vh;
+	width: 100%;
+	position: fixed;
+	top: 0;
+	z-index: 10;
+}
+
+#chat-holder header button, #chat-holder header h3 {
+	display: inline-block;
+	position: absolute;
+	right: 0;
+	top: 3vh;
+}
+
+#chat-holder header h3 {
+  color: white;
+  font-family: bungee inline;
+	left: 33vw;
+	top: -1vh;
+}
+
+#chat-holder .backToGroup {
+	left: 0;
+}
+
+#chat-holder #groupSettings {
+	background-color: rgb(83, 70, 70);
+	display: none;
+	height: 40vh;
+	width: 100%;
+	transform: translateY(10vh);
+	padding: 1em;
+	position: fixed;
+	z-index: 11;
+}
+
+#chat-holder #insideGroup {
+	margin-top: 12vh;
+}
+
+#chat-holder .messageByMe {
+  background-color: rgb(196, 198, 199);
+  border: 2px solid rgb(13, 110, 13);
+  border-right-width: 5px;
+  border-bottom-right-radius: 10px;
+  color: rgb(30, 30, 40);
+  padding: 3px;
+  margin: 10px 0;
+  position: absolute;
+  right: 0;
+}
+
+#chat-holder .messageByOthers {
+  background-color: rgb(196, 198, 199);
+  border: 2px solid red;
+  border-left-width: 5px;
+  border-top-left-radius: 10px;
+  color: rgb(30, 30, 40);
+  padding: 3px;
+  margin: 10px 0;
+  position: absolute;
+  left: 0;
+}
+
+#chat-holder #chatMessage {
+  height: 2em;
+  width: 65vw;
+}
+
+#chat-holder .send {
+  height: 2em;
+  width: 10vw;
+  margin-bottom: -11px;
+}
+
+#chat-holder #newGroup {
+  display: none;
+  background-color: rgb(46, 193, 238);
+  border: 2px solid black;
+  height: 35vh;
+  position: fixed;
+  transform: translate(-2vw, 40vw);
+  z-index: 15;
+}
+
+#chat-holder #addMember {
+  display: none;
+  background-color: rgb(46, 193, 238);
+  border: 2px solid black;
+  height: 10vh;
+  width: 100%;
+  transform: translate(0, 35vw);
+  position: fixed;
+  z-index: 14;
+}
+
+#chat-holder #newMember {
+  width: 62vw;
+}
+
+#chat-holder footer {
+  z-index: 5;
+}
+
