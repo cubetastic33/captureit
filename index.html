@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Capture it</title>
+  <link rel="icon" href="images/icon.png">
+  <link href="https://fonts.googleapis.com/css?family=Bungee+Inline|Share+Tech" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script>
+    var signin = false;
+    function hideloader() {
+      $("#loading").hide();
+      $("#hidden").show();
+    }
+  </script>
+</head>
+<body onload="hideloader()">
+  <div id="loading"></div>
+  <div id="hidden" style="display: hidden">
+    <header>
+      <h1>Capture it</h1>
+      <div id="loggedStatus"></div>
+    </header>
+    <div id="div">
+      <div id="signinreq">
+        <p>
+          Welcome to Capture it! The objective of this game is to use your tiles to surround 
+          all enemy tiles (in red) in right, left, top, and bottom sides with your ally tiles 
+          (in blue). Simple, right? All tiles can move any number of tiles in right, left, top, 
+          or bottom directions. You are allowed to play with a friend, with whom you can 
+          communicate using chat.
+        </p>
+        <div id="gameBoard">
+          <!-- Column 1 -->
+          <div id="c0"></div>
+          <div id="c6"></div>
+          <div id="c12"></div>
+          <div id="c18"></div>
+          <div id="c24"></div>
+          <div id="c30"></div>
+          <!-- Column 2 -->
+          <div id="c1"></div>
+          <div id="c7"></div>
+          <div id="c13"></div>
+          <div id="c19"></div>
+          <div id="c25"></div>
+          <div id="c31"></div>
+          <!-- Column 3 -->
+          <div id="c2"></div>
+          <div id="c8"></div>
+          <div id="c14"></div>
+          <div id="c20"></div>
+          <div id="c26"></div>
+          <div id="c32"></div>
+          <!-- Column 4 -->
+          <div id="c3"></div>
+          <div id="c9"></div>
+          <div id="c15"></div>
+          <div id="c21"></div>
+          <div id="c27"></div>
+          <div id="c33"></div>
+          <!-- Column 5 -->
+          <div id="c4"></div>
+          <div id="c10"></div>
+          <div id="c16"></div>
+          <div id="c22"></div>
+          <div id="c28"></div>
+          <div id="c34"></div>
+          <!-- Column 6 -->
+          <div id="c5"></div>
+          <div id="c11"></div>
+          <div id="c17"></div>
+          <div id="c23"></div>
+          <div id="c29"></div>
+          <div id="c35"></div>
+        </div>
+        <iframe src="chatdiv.html" id="chat">Your browser does not support iframes</iframe>
+      </div>
+      <div id="signinreqmessage"></div>
+    </div>
+    <footer>
+      Created by Aravindan, Aathesh, and Gokul of class 9A<sub>1</sub>.
+    </footer>
+  </div>
+</body>
+<script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
+<script src="js/main.js"></script>
+<script src="js/loggedStatus.js"></script>
+</html>
