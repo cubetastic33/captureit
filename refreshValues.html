@@ -24,7 +24,7 @@
       for (var i = 0; i < 36; i++) {
         db.ref('game/session').child('c'+i).set(snapshot.child('c'+i).val());
         if (i == 35) {
-          window.location.href = '../index.html';
+          window.location.href = 'index.html';
         }
       }
     });
