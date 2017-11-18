@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Capture it</title>
+</head>
+<body>
+  <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyCaqneE7oZdUSxsqoh1d2Opa2nl3-cQWRw",
+      authDomain: "capture-it-34478.firebaseapp.com",
+      databaseURL: "https://capture-it-34478.firebaseio.com",
+      projectId: "capture-it-34478",
+      storageBucket: "capture-it-34478.appspot.com",
+      messagingSenderId: "205728693849"
+    };
+    firebase.initializeApp(config);
+
+    var db = firebase.database();
+    db.ref('game').on('value', function(snapshot) {
+      for (var i = 0; i < 36; i++) {
+        db.ref('game/session').child('c'+i).set(snapshot.child('c'+i).val());
+        if (i == 35) {
+          window.location.href = '../index.html';
+        }
+      }
+    });
+  </script>
+</body>
+</html>
