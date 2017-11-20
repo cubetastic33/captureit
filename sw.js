@@ -1,19 +1,3 @@
-importScripts('https://www.gstatic.com/firebasejs/4.5.1/firebase-app.js');
-importScripts('https://www.gstatic.com/firebasejs/4.5.1/firebase-messaging.js');
-
-// Initialize Firebase
-var config = {
-  apiKey: "AIzaSyCaqneE7oZdUSxsqoh1d2Opa2nl3-cQWRw",
-  authDomain: "capture-it-34478.firebaseapp.com",
-  databaseURL: "https://capture-it-34478.firebaseio.com",
-  projectId: "capture-it-34478",
-  storageBucket: "capture-it-34478.appspot.com",
-  messagingSenderId: "205728693849"
-};
-firebase.initializeApp(config);
-
-const messaging = firebase.messaging();
-
 //Install stage sets up the offline page in the cache and opens a new cache
 self.addEventListener('install', function(event) {
   var offlinePage = new Request('offline.html');
