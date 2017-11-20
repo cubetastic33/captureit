@@ -6,7 +6,7 @@
   "display": "standalone",
   "orientation": "landscape",
   "Scope": "/",
-  "start_url": "/",
+  "start_url": "/captureit/index.html",
   "icons": [
     {
       "src": "images/icons/icon-72x72.png",
