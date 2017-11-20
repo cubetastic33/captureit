@@ -21,7 +21,7 @@ if (signin == true) {
     // Terms of service url.
     tosUrl: '<your-tos-url>'
   };
-  
+
   // Initialize the FirebaseUI Widget using Firebase.
   var ui = new firebaseui.auth.AuthUI(firebase.auth());
   // The start method will wait until the DOM is loaded.
@@ -70,29 +70,82 @@ function updateClasses() {
 }
 
 var moving = 'false';
+var turn = 0;
 
-$('div').click(function() {
-  if ($(this).attr('id').substr(0, 1) == 'c') {
-    if ((moving == 'false') && ($(this).attr('class') != 'empty')) {
-      var existingClass = $(this).attr('class');
-      moving = existingClass;
-      var session = db.ref('game/session');
-      session.child($(this).attr('id')).set(existingClass+' selected');
-      session.on('value', function(data) {
-        while ((data.child($('.selected').attr('id')).val()) == 'ally') {
-          console.log(existingClass);
-          alert(data.child($('.selected').attr('id')).val());
-        }
-      });
-    } else {
-      var session = db.ref('game/session');
-      if ($(this).attr('class') == 'empty') {
-        session.child($('.selected').attr('id')).set('empty');
-        session.child($(this).attr('id')).set(moving);
+if (turn != 2) {
+  $('div').click(function() {
+    if ($(this).attr('id').substr(0, 1) == 'c') {
+      if ((moving == 'false') && ($(this).attr('class') != 'empty')) {
+        var existingClass = $(this).attr('class');
+        moving = existingClass;
+        var session = db.ref('game/session');
+        session.child($(this).attr('id')).set(existingClass+' selected');
+        session.on('value', function(data) {
+          while ((data.child($('.selected').attr('id')).val()) == 'ally') {
+            console.log(existingClass);
+            alert(data.child($('.selected').attr('id')).val());
+          }
+        });
+        count += 1;
       } else {
-        session.child($('.selected').attr('id')).set(moving);
+        var currentClass = $(this).attr('class');
+        var currentId = $(this).attr('id');
+        var a = $('.selected').attr('id')[1];
+        var b = a+1 ;
+        var c = a-1;
+        var d = a+6;
+        var e = a-6;
+        var session = db.ref('game/session');
+        alert(currentId+' and '+c);
+        if ((currentClass == 'empty') && ((currentId == b) || (currentId == c) || (currentId == d) || (currentId == e))) {
+          session.child($('.selected').attr('id')).set('empty');
+          session.child($(this).attr('id')).set(moving);
+        } else {
+          session.child($('.selected').attr('id')).set(moving);
+        }
+        moving = 'false';
+        count += 1;
       }
-      moving = 'false';
     }
+  });
+} else {
+  //Enemy's turn
+}
+/*
+if (count == 4) {
+  count = 0;
+  var rand = generateRandomInteger(0, 36);
+  var loc = 'c' + rand ;
+  if(loc == empty) {
+    $('.enemy').attr('id', loc);
+    rand += 1;
+  } else if (loc == empty) {
+    $('.enemy').attr('id', loc);
+    rand += 1;
+  } else if (loc == empty) {
+    $('.enemy').attr('id', loc);
+    rand += 1;
+  } else if (loc == empty) {
+    $('.enemy').attr('id', loc);
+    rand += 1;
+  } else if (loc == empty) {
+    $('.enemy').attr('id', loc);
+    rand += 1;
+  } else if (loc == empty) {
+    $('.enemy').attr('id', loc);
+    rand += 1;
+  } else if (loc == empty) {
+    $('.enemy').attr('id', loc);
+    rand += 1;
+  } else if (loc == empty) {
+    $('.enemy').attr('id', loc);
+    rand += 1;
+  } else if (loc == empty) {
+    $('.enemy').attr('id', loc);
+    rand += 1;
+  } else if (loc == empty) {
+    $('.enemy').attr('id', loc);
+    rand += 1;
   }
-});
+
+}*/
