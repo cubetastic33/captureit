@@ -101,7 +101,7 @@ function usersTurn() {
         var session = db.ref('game/session');
         if ((currentClass == 'empty') && ((currentId == b) || (currentId == c) || (currentId == d) || (currentId == e))) {
           session.child($('.selected').attr('id')).set('empty');
-          session.child($(this).attr('id')).set('ally');
+          session.child($(this).attr('id')).set(moving);
           moving = 'false';
           $('.enemy').each(function() {
             enemyTiles.push(this.id);
