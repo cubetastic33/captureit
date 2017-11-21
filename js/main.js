@@ -78,16 +78,16 @@ function updateClasses() {
   });
 }
 
-var moving = false;
+var moving = 'false';
 var enemyTiles = [];
 var surrounding = [];
 
 function usersTurn() {
   $('div').click(function() {
     if ($(this).attr('id').substr(0, 1) == 'c') {
-      if ((moving == false) && ($(this).attr('ally') != 'empty')) {
+      if ((moving == 'false') && ($(this).attr('ally') != 'empty')) {
         var existingClass = $(this).attr('class');
-        moving = true;
+        moving = existingClass;
         var session = db.ref('game/session');
         session.child($(this).attr('id')).set(existingClass+' selected');
       } else {
@@ -102,14 +102,14 @@ function usersTurn() {
         if ((currentClass == 'empty') && ((currentId == b) || (currentId == c) || (currentId == d) || (currentId == e))) {
           session.child($('.selected').attr('id')).set('empty');
           session.child($(this).attr('id')).set('ally');
-          moving = false;
+          moving = 'false';
           $('.enemy').each(function() {
             enemyTiles.push(this.id);
           });
           enemysTurn();
         } else {
           session.child($('.selected').attr('id')).set(moving);
-          moving = false;          
+          moving = 'false';          
         }
       }
     }
