@@ -1,4 +1,3 @@
-
 // Initialize Firebase
 var config = {
   apiKey: "AIzaSyCaqneE7oZdUSxsqoh1d2Opa2nl3-cQWRw",
@@ -102,7 +101,7 @@ function usersTurn() {
         var session = db.ref('game/session');
         if ((currentClass == 'empty') && ((currentId == b) || (currentId == c) || (currentId == d) || (currentId == e))) {
           session.child($('.selected').attr('id')).set('empty');
-          session.child($(this).attr('id')).set(moving);
+          session.child($(this).attr('id')).set('ally');
           moving = 'false';
           $('.enemy').each(function() {
             enemyTiles.push(this.id);
