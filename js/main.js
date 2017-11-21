@@ -134,7 +134,6 @@ function enemysMove(selectedEnemy) {
       var session = db.ref('game/session');
       session.child(selectedEnemy).set('empty');
       session.child('c'+moveTo).set('enemy');
-      alert(selectedEnemy);
       usersTurn();
     } else {
       removeFromArray(surrounding, moveTo);
