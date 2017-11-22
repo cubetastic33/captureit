@@ -81,6 +81,33 @@ function updateClasses() {
 var moving = false;
 var enemyTiles = [];
 var surrounding = [];
+var level = $('#levelSelector').val();
+
+function chooseLevel() {
+  level = $('#levelSelector').val();
+}
+
+if (level == 'userVsRandom') {
+  $('#introMsg').text('\
+  Welcome to Capture it! The objective of this game is to use your tiles to surround \
+  all enemy tiles (in red) in right, left, top, and bottom sides with your ally tiles \
+  (in blue). Simple, right? All tiles can move any number of tiles in right, left, top, \
+  or bottom directions. You are allowed to play with a friend, with whom you can \
+  communicate using chat.\
+  ');
+  usersTurn();
+}
+
+if (level == 'userVsAI') {
+  $('#IntroMsg').text('\
+  Welcome to Capture it! The objective of this game is to use your tiles to surround \
+  any one enemy tile (in red) in right, left, top, and bottom sides with your ally tiles \
+  (in blue). Simple, right? All tiles can move 1 tile in right, left, top, \
+  or bottom directions. You are allowed to play with a friend, with whom you can \
+  communicate using chat.\
+  ');
+}
+
 
 function usersTurn() {
   $('div').click(function() {
@@ -148,5 +175,3 @@ function enemysMove(selectedEnemy) {
     enemysTurn();
   }
 }
-
-usersTurn();
