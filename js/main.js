@@ -84,7 +84,7 @@ var surrounding = [];
 var level = $('#levelSelector').val();
 
 function chooseLevel() {
-  level = $('#levelSelector').val();
+  level = $('#levelSelector').find(':selected').val();
 }
 
 if (level == 'userVsRandom') {
