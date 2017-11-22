@@ -70,7 +70,7 @@
     firebase.initializeApp(config);
 
     var db = firebase.database();
-    db.ref('game').on('value', function(snapshot) {
+    db.ref(localStorage.getItem('refLoc')).on('value', function(snapshot) {
       for (var i = 0; i < 36; i++) {
         db.ref('game/session').child('c'+i).set(snapshot.child('c'+i).val());
         if (i == 35) {
