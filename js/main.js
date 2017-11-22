@@ -56,6 +56,21 @@ function signOutUser() {
 
 var permitted;
 
+if (localStorage.getItem('refLoc') == 'game/gameReset') {
+  $('#levelSelector').val('userVsAI');
+} else if (localStorage.getItem('refLoc') == 'game') {
+  $('#levelSelector').val('userVsRandom');
+} else {
+  localStorage.setItem('refLoc', 'game');
+}
+
+var level = $('#levelSelector').find(':selected').val();
+
+function chooseLevel() {
+  level = $('#levelSelector').find(':selected').val();
+  initialize();
+}
+
 firebase.auth().onAuthStateChanged(function(user) {
   if (!localStorage.getItem('refreshedClasses')) {
     localStorage.setItem('refreshedClasses', 'false');
@@ -82,34 +97,40 @@ var moving = false;
 var enemyTiles = [];
 var allyTiles = [];
 var surrounding = [];
-var level = $('#levelSelector').find(':selected').val();
 
-function chooseLevel() {
-  level = $('#levelSelector').find(':selected').val();
+function initialize() {
+  if (level == 'userVsRandom') {
+    if (localStorage.getItem('refLoc') != 'game') {
+      localStorage.setItem('refLoc', 'game');
+      window.location.href="refreshValues.html";
+    }
+    $('#introMsg').text('\
+    Welcome to Capture it! The objective of this game is to use your tiles to surround \
+    all enemy tiles (in red) in right, left, top, and bottom sides with your ally tiles \
+    (in blue). Simple, right? All tiles can move any number of tiles in right, left, top, \
+    or bottom directions. You are allowed to play with a friend, with whom you can \
+    communicate using chat.\
+    ');
+    usersTurn();
+  }
+  
+  if (level == 'userVsAI') {
+    if (localStorage.getItem('refLoc') != 'game/gameReset') {
+      localStorage.setItem('refLoc', 'game/gameReset');
+      window.location.href="refreshValues.html";
+    }
+    $('#introMsg').text('\
+    Welcome to Capture it! The objective of this game is to use your tiles to surround \
+    any one enemy tile (in red) in right, left, top, and bottom sides with your ally tiles \
+    (in blue). Simple, right? All tiles can move 1 tile in right, left, top, \
+    or bottom directions. You are allowed to play with a friend, with whom you can \
+    communicate using chat.\
+    ');
+    userTurn();
+  }
 }
 
-if (level == 'userVsRandom') {
-  $('#introMsg').text('\
-  Welcome to Capture it! The objective of this game is to use your tiles to surround \
-  all enemy tiles (in red) in right, left, top, and bottom sides with your ally tiles \
-  (in blue). Simple, right? All tiles can move any number of tiles in right, left, top, \
-  or bottom directions. You are allowed to play with a friend, with whom you can \
-  communicate using chat.\
-  ');
-  usersTurn();
-}
-
-if (level == 'userVsAI') {
-  $('#IntroMsg').text('\
-  Welcome to Capture it! The objective of this game is to use your tiles to surround \
-  any one enemy tile (in red) in right, left, top, and bottom sides with your ally tiles \
-  (in blue). Simple, right? All tiles can move 1 tile in right, left, top, \
-  or bottom directions. You are allowed to play with a friend, with whom you can \
-  communicate using chat.\
-  ');
-  userTurn();
-}
-
+initialize();
 
 function usersTurn() {
   $('div').click(function() {
@@ -126,7 +147,38 @@ function usersTurn() {
         var d = a+6;
         var e = a-6;
         var session = db.ref('game/session');
-        if ((currentId == b) || (currentId == c) || (currentId == d) || (currentId == e)) {
+        var edge = [0, 1, 2, 3, 4, 5, 11, 17, 23, 29, 35, 34, 33, 32, 31, 30, 24, 18, 12, 6];
+        edge.forEach(function(item) {
+          var existingClass = $('#c'+item).attr('class');
+          session.child($('#c'+item).attr('id')).set(existingClass+' exception');
+        });
+
+        if ($(this).attr('class') == 'exception') {
+          alert('This is an edge piece, still under developement.');
+          if ((currentId%6 == 17) && (currentId == c)) {
+            usersTurn();
+          } /*else if ((currentId%6 == 5) && (currentId == b )) {
+            usersTurn();
+          } else if (((currentId == 1) || (currentId == 2) || (currentId == 3) || (currentId == 4)  && (currentId == c))) {
+            alert("Invalid Move, Please move the tile to any of the adjacent empty tiles in the 4 major directions");
+            usersTurn();
+          } else if((currentClass == 'empty') && ((currentId == 31) || (currentId == 32) || (currentId == 33) || (currentId == 34)  && (currentId == d))) {
+            alert("Invalid Move, Please move the tile to any of the adjacent empty tiles in the 4 major directions");
+            usersTurn();
+          } else if((currentClass == 'empty') && ((currentId == 0) && ((currentId == c) || (currentId ==e) ) ) ) {
+            alert("Invalid Move, Please move the tile to any of the adjacent empty tiles in the 4 major directions");
+            usersTurn();
+          } else if ((currentId == 5) && ((currentId == b) || (currentId == e))) {
+            alert("Invalid Move, Please move the tile to any of the adjacent empty tiles in the 4 major directions");
+            usersTurn();
+          } else if ((currentId == 35)  && ((currentId == d) || (currentId == b))) {
+            alert("Invalid Move, Please move the tile to any of the adjacent empty tiles in the 4 major directions");
+            usersTurn();
+          } else if ((currentId == d) || (currentId == c)) {
+            alert("Invalid Move, Please move the tile to any of the adjacent empty tiles in the 4 major directions");
+            usersTurn();
+          }*/
+        } else if ((currentId == b) || (currentId == c) || (currentId == d) || (currentId == e)) {
           session.child($('.selected').attr('id')).set('empty').then(function() {
             session.child(id).set('ally');
             $('.enemy').each(function() {
