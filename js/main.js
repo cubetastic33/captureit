@@ -233,13 +233,13 @@ function enemyMove(selectedEnemy) {
       var session = db.ref('game/session');
       session.child(selectedEnemy).set('empty');
       session.child('c'+moveTo).set('enemy');
-      usersTurn();
+      userTurn();
     } else {
       removeFromArray(surrounding, moveTo);
-      enemysMove(selectedEnemy);
+      enemyMove(selectedEnemy);
     }
   } else {
     removeFromArray(enemyTiles, selectedEnemy);
-    enemysTurn();
+    enemyTurn();
   }
 }
