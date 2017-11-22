@@ -85,13 +85,10 @@ var surrounding = [];
 function usersTurn() {
   $('div').click(function() {
     if ($(this).attr('id').substr(0, 1) == 'c') {
-      if ((moving == false) && ($(this).attr('class') == 'ally')) {
-        var existingClass = $(this).attr('class');
-        moving = true;
+      if ((!$('.selected').attr('id')) && ($(this).attr('class') == 'ally')) {
         var session = db.ref('game/session');
-        session.child($(this).attr('id')).set(existingClass+' selected');
-      } else {
-        var currentClass = $(this).attr('class');
+        session.child($(this).attr('id')).set('ally selected');
+      } else if (($('.selected').attr('id')) && ($(this).attr('class') == 'empty')) {
         var currentId = parseInt($(this).attr('id').substr(1));
         var a = parseInt($('.selected').attr('id').substr(1));
         var b = a+1 ;
@@ -99,18 +96,26 @@ function usersTurn() {
         var d = a+6;
         var e = a-6;
         var session = db.ref('game/session');
-        if ((currentClass == 'empty') && ((currentId == b) || (currentId == c) || (currentId == d) || (currentId == e))) {
+        if ((currentId == b) || (currentId == c) || (currentId == d) || (currentId == e)) {
           session.child($('.selected').attr('id')).set('empty');
+          var id = $(this).attr('id');
+          if ($('.selected').attr('id')) {
+            session.on('value', function(data) {
+              //session.child($('.selected').attr('id')).set('empty');
+              console.log(data.child(id).val())});
+          }
           session.child($(this).attr('id')).set('ally');
-          moving = false;
           $('.enemy').each(function() {
             enemyTiles.push(this.id);
           });
           enemysTurn();
         } else {
-          session.child($('.selected').attr('id')).set(moving);
-          moving = false;          
+          session.child($('.selected').attr('id')).set('ally');
         }
+      } else if ($(this).attr('class') == 'ally') {
+        var session = db.ref('game/session');
+        session.child($('.selected').attr('id')).set('ally');
+        console.log($('.selected'))
       }
     }
   });
