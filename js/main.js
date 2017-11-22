@@ -80,6 +80,7 @@ function updateClasses() {
 
 var moving = false;
 var enemyTiles = [];
+var allyTiles = [];
 var surrounding = [];
 var level = $('#levelSelector').find(':selected').val();
 
@@ -200,6 +201,12 @@ function userTurn() {
                 enemyTiles.pop();
               }
               enemyTiles.push(this.id);
+            });
+            $('.ally').each(function() {
+              while (allyTiles.length > 0) {
+                allyTiles.pop();
+              }
+              allyTiles.push(this.id);
             });
             enemyTurn();
           });
