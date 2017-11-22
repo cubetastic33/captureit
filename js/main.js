@@ -214,3 +214,32 @@ function userTurn() {
     }
   });
 }
+
+function enemyTurn() {
+  if ((enemyTiles.length > 0) && (enemyTiles.length < 4)) {
+    var selectedEnemy = enemyTiles[random(0, enemyTiles.length)];
+    var locId = selectedEnemy.substr(1, selectedEnemy.length);
+    surrounding = [locId+1, locId-1, locId+6, locId-6];
+    enemysMove(selectedEnemy);
+  } else {
+    alert('game over!');
+  }
+}
+
+function enemyMove(selectedEnemy) {
+  if (surrounding.length > 0) {
+    var moveTo = surrounding[random(0, surrounding.length)];
+    if ($('#c'+moveTo).attr('class') == 'empty') {
+      var session = db.ref('game/session');
+      session.child(selectedEnemy).set('empty');
+      session.child('c'+moveTo).set('enemy');
+      usersTurn();
+    } else {
+      removeFromArray(surrounding, moveTo);
+      enemysMove(selectedEnemy);
+    }
+  } else {
+    removeFromArray(enemyTiles, selectedEnemy);
+    enemysTurn();
+  }
+}
