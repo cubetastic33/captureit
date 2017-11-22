@@ -81,7 +81,7 @@ function updateClasses() {
 var moving = false;
 var enemyTiles = [];
 var surrounding = [];
-var level = $('#levelSelector').val();
+var level = $('#levelSelector').find(':selected').val();
 
 function chooseLevel() {
   level = $('#levelSelector').find(':selected').val();
