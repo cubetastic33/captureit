@@ -80,6 +80,7 @@ function updateClasses() {
 
 var moving = false;
 var enemyTiles = [];
+var allyTiles = [];
 var surrounding = [];
 var level = $('#levelSelector').find(':selected').val();
 
@@ -106,6 +107,7 @@ if (level == 'userVsAI') {
   or bottom directions. You are allowed to play with a friend, with whom you can \
   communicate using chat.\
   ');
+  userTurn();
 }
 
 
@@ -124,9 +126,7 @@ function usersTurn() {
         var d = a+6;
         var e = a-6;
         var session = db.ref('game/session');
-        var edge = [0, 1, 2, 3, 4, 5, 11, 17, 23, 29, 35, 34, 33, 32, 31, 30, 24, 18, 12, 6];
-        
-        if (((currentId == b) || (currentId == c) || (currentId == d) || (currentId == e) && (currentId != edge[]))) {
+        if ((currentId == b) || (currentId == c) || (currentId == d) || (currentId == e)) {
           session.child($('.selected').attr('id')).set('empty').then(function() {
             session.child(id).set('ally');
             $('.enemy').each(function() {
@@ -137,41 +137,6 @@ function usersTurn() {
             });
             enemysTurn();
           });
-        } elseif((currentClass == 'empty') && (currentId % 6 == 0) && (currentId == c) ) {
-          alert("Invalid Move, Please move the tile to any of the adjacent empty tiles in the 4 major directions");
-          usersTurn();
-        } elseif((currentClass == 'empty') && (currentId % 6 == 5) && (currentId == b )) {
-          alert("Invalid Move, Please move the tile to any of the adjacent empty tiles in the 4 major directions");
-          usersTurn();
-
-        } elseif( (currentClass == 'empty') && ((currentId == 1) || (currentId == 2) || (currentId == 3) || (currentId == 4)  && (currentId == c))) {
-          alert("Invalid Move, Please move the tile to any of the adjacent empty tiles in the 4 major directions");
-          usersTurn();
-                    
-        } elseif((currentClass == 'empty') && ((currentId == 31) || (currentId == 32) || (currentId == 33) || (currentId == 34)  && (currentId == d))) {
-          alert("Invalid Move, Please move the tile to any of the adjacent empty tiles in the 4 major directions");
-          usersTurn();
-                    
-        } elseif((currentClass == 'empty') && ((currentId == 0) && ((currentId == c) || (currentId ==e) ) ) ) {
-          alert("Invalid Move, Please move the tile to any of the adjacent empty tiles in the 4 major directions");
-          usersTurn();
-                    
-        }elseif((currentClass == 'empty') && ((currentId == 5) && ( (currentId == b) || (currentId ==e) ) )) {
-          alert("Invalid Move, Please move the tile to any of the adjacent empty tiles in the 4 major directions");
-          usersTurn();
-                    
-        }elseif((currentClass == 'empty') && ((currentId == 35)  && ( (currentId == d) || (currentId ==b) ) )) {
-          alert("Invalid Move, Please move the tile to any of the adjacent empty tiles in the 4 major directions");
-          usersTurn();
-                    
-        } elseif((currentClass == 'empty') && ((currentId == 30)  && ((currentId == d) || (currentId == c) ) )) {
-          alert("Invalid Move, Please move the tile to any of the adjacent empty tiles in the 4 major directions");
-          usersTurn();
-                    
-        } elseif() {
-          alert("Invalid Move, Please move the tile to any of the adjacent empty tiles in the 4 major directions");
-          usersTurn();
-                    
         } else {
           session.child($('.selected').attr('id')).set('ally');
         }
@@ -210,5 +175,78 @@ function enemysMove(selectedEnemy) {
   } else {
     removeFromArray(enemyTiles, selectedEnemy);
     enemysTurn();
+  }
+}
+
+function userTurn() {
+  $('div').click(function() {
+    if ($(this).attr('id').substr(0, 1) == 'c') {
+      if ((!$('.selected').attr('id')) && ($(this).attr('class') == 'ally')) {
+        var session = db.ref('game/session');
+        session.child($(this).attr('id')).set('ally selected');
+      } else if (($('.selected').attr('id')) && ($(this).attr('class') == 'empty')) {
+        var id = $(this).attr('id');
+        var currentId = parseInt($(this).attr('id').substr(1));
+        var a = parseInt($('.selected').attr('id').substr(1));
+        var b = a+1 ;
+        var c = a-1;
+        var d = a+6;
+        var e = a-6;
+        var session = db.ref('game/session');
+        if ((currentId == b) || (currentId == c) || (currentId == d) || (currentId == e)) {
+          session.child($('.selected').attr('id')).set('empty').then(function() {
+            session.child(id).set('ally');
+            $('.enemy').each(function() {
+              while (enemyTiles.length > 0) {
+                enemyTiles.pop();
+              }
+              enemyTiles.push(this.id);
+            });
+            $('.ally').each(function() {
+              while (allyTiles.length > 0) {
+                allyTiles.pop();
+              }
+              allyTiles.push(this.id);
+            });
+            enemyTurn();
+          });
+        } else {
+          session.child($('.selected').attr('id')).set('ally');
+        }
+      } else if ($(this).attr('class') == 'ally') {
+        var session = db.ref('game/session');
+        session.child($('.selected').attr('id')).set('ally');
+        console.log($('.selected'))
+      }
+    }
+  });
+}
+
+function enemyTurn() {
+  if ((enemyTiles.length > 0) && (enemyTiles.length < 4)) {
+    var selectedEnemy = enemyTiles[random(0, enemyTiles.length)];
+    var locId = selectedEnemy.substr(1, selectedEnemy.length);
+    surrounding = [locId+1, locId-1, locId+6, locId-6];
+    enemysMove(selectedEnemy);
+  } else {
+    alert('game over!');
+  }
+}
+
+function enemyMove(selectedEnemy) {
+  if (surrounding.length > 0) {
+    var moveTo = surrounding[random(0, surrounding.length)];
+    if ($('#c'+moveTo).attr('class') == 'empty') {
+      var session = db.ref('game/session');
+      session.child(selectedEnemy).set('empty');
+      session.child('c'+moveTo).set('enemy');
+      userTurn();
+    } else {
+      removeFromArray(surrounding, moveTo);
+      enemyMove(selectedEnemy);
+    }
+  } else {
+    removeFromArray(enemyTiles, selectedEnemy);
+    enemyTurn();
   }
 }
