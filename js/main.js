@@ -89,6 +89,7 @@ function usersTurn() {
         var session = db.ref('game/session');
         session.child($(this).attr('id')).set('ally selected');
       } else if (($('.selected').attr('id')) && ($(this).attr('class') == 'empty')) {
+        var id = $(this).attr('id');
         var currentId = parseInt($(this).attr('id').substr(1));
         var a = parseInt($('.selected').attr('id').substr(1));
         var b = a+1 ;
@@ -97,18 +98,16 @@ function usersTurn() {
         var e = a-6;
         var session = db.ref('game/session');
         if ((currentId == b) || (currentId == c) || (currentId == d) || (currentId == e)) {
-          session.child($('.selected').attr('id')).set('empty');
-          var id = $(this).attr('id');
-          if ($('.selected').attr('id')) {
-            session.on('value', function(data) {
-              //session.child($('.selected').attr('id')).set('empty');
-              console.log(data.child(id).val())});
-          }
-          session.child($(this).attr('id')).set('ally');
-          $('.enemy').each(function() {
-            enemyTiles.push(this.id);
+          session.child($('.selected').attr('id')).set('empty').then(function() {
+            session.child(id).set('ally');
+            $('.enemy').each(function() {
+              while (enemyTiles.length > 0) {
+                enemyTiles.pop();
+              }
+              enemyTiles.push(this.id);
+            });
+            enemysTurn();
           });
-          enemysTurn();
         } else {
           session.child($('.selected').attr('id')).set('ally');
         }
@@ -122,7 +121,7 @@ function usersTurn() {
 }
 
 function enemysTurn() {
-  if (enemyTiles.length > 0) {
+  if ((enemyTiles.length > 0) && (enemyTiles.length < 4)) {
     var selectedEnemy = enemyTiles[random(0, enemyTiles.length)];
     var locId = selectedEnemy.substr(1, selectedEnemy.length);
     surrounding = [locId+1, locId-1, locId+6, locId-6];
