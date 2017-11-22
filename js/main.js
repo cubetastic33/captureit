@@ -205,7 +205,7 @@ function usersTurn() {
 }
 
 function enemysTurn(fromUsersTurn) {
-  if ((enemyTiles.length > 0) && (enemyTiles.length < 4)) {
+  if (enemyTiles.length > 0) {
     var selectedEnemy = enemyTiles[random(0, enemyTiles.length)];
     var locId = selectedEnemy.substr(1, selectedEnemy.length);
     surrounding = [locId+1, locId-1, locId+6, locId-6];
@@ -310,7 +310,8 @@ function userTurn() {
 }
 
 function enemyTurn() {
-  if ((enemyTiles.length > 0) && (enemyTiles.length < 4)) {
+  console.log(enemyTiles.length);
+  if (enemyTiles.length > 0) {
     var selectedEnemy = commonTileMovable[random(0, commonTileMovable.length)];
     var locId = selectedEnemy.substr(1, selectedEnemy.length);
     surrounding = [locId+1, locId-1, locId+6, locId-6];
