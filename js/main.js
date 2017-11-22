@@ -106,6 +106,7 @@ if (level == 'userVsAI') {
   or bottom directions. You are allowed to play with a friend, with whom you can \
   communicate using chat.\
   ');
+  userTurn();
 }
 
 
@@ -174,4 +175,42 @@ function enemysMove(selectedEnemy) {
     removeFromArray(enemyTiles, selectedEnemy);
     enemysTurn();
   }
+}
+
+function userTurn() {
+  $('div').click(function() {
+    if ($(this).attr('id').substr(0, 1) == 'c') {
+      if ((!$('.selected').attr('id')) && ($(this).attr('class') == 'ally')) {
+        var session = db.ref('game/session');
+        session.child($(this).attr('id')).set('ally selected');
+      } else if (($('.selected').attr('id')) && ($(this).attr('class') == 'empty')) {
+        var id = $(this).attr('id');
+        var currentId = parseInt($(this).attr('id').substr(1));
+        var a = parseInt($('.selected').attr('id').substr(1));
+        var b = a+1 ;
+        var c = a-1;
+        var d = a+6;
+        var e = a-6;
+        var session = db.ref('game/session');
+        if ((currentId == b) || (currentId == c) || (currentId == d) || (currentId == e)) {
+          session.child($('.selected').attr('id')).set('empty').then(function() {
+            session.child(id).set('ally');
+            $('.enemy').each(function() {
+              while (enemyTiles.length > 0) {
+                enemyTiles.pop();
+              }
+              enemyTiles.push(this.id);
+            });
+            enemyTurn();
+          });
+        } else {
+          session.child($('.selected').attr('id')).set('ally');
+        }
+      } else if ($(this).attr('class') == 'ally') {
+        var session = db.ref('game/session');
+        session.child($('.selected').attr('id')).set('ally');
+        console.log($('.selected'))
+      }
+    }
+  });
 }
