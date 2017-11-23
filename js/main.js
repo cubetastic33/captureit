@@ -182,6 +182,41 @@ function usersTurn() {
             usersTurn();
           }*/
         } else if ((currentId == b) || (currentId == c) || (currentId == d) || (currentId == e)) {
+          
+          if(   (currentId == 0) && ( (currentId == b) || (currentId == d ) ) ) {
+            
+              session.child($('.selected').attr('id')).set('ally');
+            
+            } else if( (currentId == 5) &&  ( (currentId == c) || (currentId == d)  )  ) {
+            
+              session.child($('.selected').attr('id')).set('ally');
+            
+            } else if( (currentId == 35) &&  ( (currentId == c) || (currentId == e)  )  ) {
+            
+              session.child($('.selected').attr('id')).set('ally');
+            
+            } else if( (currentId == 30) &&  ( (currentId == b) || (currentId == e)  )  ) {
+            
+              session.child($('.selected').attr('id')).set('ally');
+            
+            } else if( ( (currentId%6 == 0) && (currentId >0) && (currentId <30)   ) &&  ( (currentId == d) || (currentId == e)  ||  (currentId == b)  )  ) {
+            
+              session.child($('.selected').attr('id')).set('ally');
+            
+            } else if( ( (currentId%6 == 5) && (currentId >5) && (currentId <35)   ) &&  ( (currentId == d) || (currentId == e)  ||  (currentId == c)  )  ) {
+              
+              session.child($('.selected').attr('id')).set('ally');
+              
+            } else if(      ( (currentId == 1) || (currentId == 2) || (currentId == 3) || (currentId == 4) )   &&   (   (currentId == b) || (currentId == c) || (currentId == d)  )   ) {
+              
+              session.child($('.selected').attr('id')).set('ally');
+            
+            } else if(      ( (currentId == 31) || (currentId == 32) || (currentId == 33) || (currentId == 34) )   &&   (   (currentId == b) || (currentId == c) || (currentId == e)  )   ) {
+            
+              session.child($('.selected').attr('id')).set('ally');
+            
+            } 
+          
           session.child($('.selected').attr('id')).set('empty').then(function() {
             session.child(id).set('ally');
             while (enemyTiles.length > 0) {
