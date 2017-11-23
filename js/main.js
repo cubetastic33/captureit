@@ -184,10 +184,10 @@ function usersTurn() {
         } else if ((currentId == b) || (currentId == c) || (currentId == d) || (currentId == e)) {
           session.child($('.selected').attr('id')).set('empty').then(function() {
             session.child(id).set('ally');
+            while (enemyTiles.length > 0) {
+              enemyTiles.pop();
+            }
             $('.enemy').each(function() {
-              while (enemyTiles.length > 0) {
-                enemyTiles.pop();
-              }
               enemyTiles.push(this.id);
             });
             enemysTurn(true);;
@@ -261,37 +261,38 @@ function userTurn() {
         if ((currentId == b) || (currentId == c) || (currentId == d) || (currentId == e)) {
           session.child($('.selected').attr('id')).set('empty').then(function() {
             session.child(id).set('ally');
+            while (enemyTiles.length > 0) {
+              enemyTiles.pop();
+            }
+            while(enemyMovableLocation.length > 0){
+              enemyMovableLocation.pop();
+            }
             $('.enemy').each(function() {
-              while (enemyTiles.length > 0) {
-                enemyTiles.pop();
-              }
-              while(enemyMovableLocation.length > 0){
-                enemyMovableLocation.pop();
-              }
               enemyTiles.push(this.id);
               var idNum = parseInt(this.id.substr(1));
-              enemyMovableLocation.push('c'+idNum-1);
-              enemyMovableLocation.push('c'+idNum+1);
-              enemyMovableLocation.push('c'+idNum+6);
-              enemyMovableLocation.push('c'+idNum-6);
+              enemyMovableLocation.push(idNum-1);
+              enemyMovableLocation.push(idNum+1);
+              enemyMovableLocation.push(idNum+6);
+              enemyMovableLocation.push(idNum-6);
             });
+            while (allyTiles.length > 0) {
+              allyTiles.pop();
+            }
+            while(allyMovableLocation.length > 0){
+              allyMovableLocation.pop();
+            }
             $('.ally').each(function() {
-              while (allyTiles.length > 0) {
-                allyTiles.pop();
-              }
-              while(allyMovableLocation.length > 0){
-                allyMovableLocation.pop();
-              }
               enemyTiles.push(this.id);
               var idNumAlly= parseInt(this.id.substr(1));
-              allyMovableLocation.push('c'+idNumAlly-1);
-              allyMovableLocation.push('c'+idNumAlly+1);
-              allyMovableLocation.push('c'+idNumAlly+6);
-              allyMovableLocation.push('c'+idNumAlly-6);
+              allyMovableLocation.push(idNumAlly-1);
+              allyMovableLocation.push(idNumAlly+1);
+              allyMovableLocation.push(idNumAlly+6);
+              allyMovableLocation.push(idNumAlly-6);
               allyTiles.push(this.id);
             });
             commonTileMovable = [intersection(allyMovableLocation, enemyMovableLocation)];
-            if (commonTileMovable) {
+            commonTileMovable = commonTileMovable[0];
+            if (commonTileMovable.length > 0) {
               enemyTurn();
             } else {
               enemysTurn(false);
@@ -310,31 +311,24 @@ function userTurn() {
 }
 
 function enemyTurn() {
-  console.log(enemyTiles.length);
   if (enemyTiles.length > 0) {
-    var selectedEnemy = commonTileMovable[random(0, commonTileMovable.length)];
-    var locId = selectedEnemy.substr(1, selectedEnemy.length);
-    surrounding = [locId+1, locId-1, locId+6, locId-6];
-    enemyMove(selectedEnemy);
+    console.log(commonTileMovable.length);
+    var tileToMove = commonTileMovable[random(0, commonTileMovable.length)];
+    console.log('tileToMove: ', tileToMove);
+    surrounding = [tileToMove +1, tileToMove-1, tileToMove+6, tileToMove-6];
+    surrounding.forEach(function(item) {
+      if ($('#c'+item).attr('class') != 'enemy') {
+        removeFromArray(surrounding, item);
+      }
+    });
+    console.log('surrounding: ', surrounding);
+    var selectedEnemy = surrounding[random(0, surrounding.length)];
+    var session = db.ref('game/session');
+    session.child('c'+selectedEnemy).set('empty');
+    session.child('c'+tileToMove).set('enemy').then(function() {
+      userTurn();
+    });
   } else {
     alert('game over!');
-  }
-}
-
-function enemyMove(selectedEnemy) {
-  if (surrounding.length > 0) {
-    var moveTo = surrounding[random(0, surrounding.length)];
-    if ($('#c'+moveTo).attr('class') == 'empty') {
-      var session = db.ref('game/session');
-      session.child(selectedEnemy).set('empty');
-      session.child('c'+moveTo).set('enemy');
-      userTurn();
-    } else {
-      removeFromArray(surrounding, moveTo);
-      enemyMove(selectedEnemy);
-    }
-  } else {
-    removeFromArray(enemyTiles, selectedEnemy);
-    enemyTurn();
   }
 }
