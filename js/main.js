@@ -182,41 +182,6 @@ function usersTurn() {
             usersTurn();
           }*/
         } else if ((currentId == b) || (currentId == c) || (currentId == d) || (currentId == e)) {
-          
-          if(   (currentId == 0) && ( (currentId == b) || (currentId == d ) ) ) {
-            
-              session.child($('.selected').attr('id')).set('ally');
-            
-            } else if( (currentId == 5) &&  ( (currentId == c) || (currentId == d)  )  ) {
-            
-              session.child($('.selected').attr('id')).set('ally');
-            
-            } else if( (currentId == 35) &&  ( (currentId == c) || (currentId == e)  )  ) {
-            
-              session.child($('.selected').attr('id')).set('ally');
-            
-            } else if( (currentId == 30) &&  ( (currentId == b) || (currentId == e)  )  ) {
-            
-              session.child($('.selected').attr('id')).set('ally');
-            
-            } else if( ( (currentId%6 == 0) && (currentId >0) && (currentId <30)   ) &&  ( (currentId == d) || (currentId == e)  ||  (currentId == b)  )  ) {
-            
-              session.child($('.selected').attr('id')).set('ally');
-            
-            } else if( ( (currentId%6 == 5) && (currentId >5) && (currentId <35)   ) &&  ( (currentId == d) || (currentId == e)  ||  (currentId == c)  )  ) {
-              
-              session.child($('.selected').attr('id')).set('ally');
-              
-            } else if(      ( (currentId == 1) || (currentId == 2) || (currentId == 3) || (currentId == 4) )   &&   (   (currentId == b) || (currentId == c) || (currentId == d)  )   ) {
-              
-              session.child($('.selected').attr('id')).set('ally');
-            
-            } else if(      ( (currentId == 31) || (currentId == 32) || (currentId == 33) || (currentId == 34) )   &&   (   (currentId == b) || (currentId == c) || (currentId == e)  )   ) {
-            
-              session.child($('.selected').attr('id')).set('ally');
-            
-            } 
-          
           session.child($('.selected').attr('id')).set('empty').then(function() {
             session.child(id).set('ally');
             while (enemyTiles.length > 0) {
@@ -317,13 +282,12 @@ function userTurn() {
               allyMovableLocation.pop();
             }
             $('.ally').each(function() {
-              enemyTiles.push(this.id);
+              allyTiles.push(this.id);
               var idNumAlly= parseInt(this.id.substr(1));
               allyMovableLocation.push(idNumAlly-1);
               allyMovableLocation.push(idNumAlly+1);
               allyMovableLocation.push(idNumAlly+6);
               allyMovableLocation.push(idNumAlly-6);
-              allyTiles.push(this.id);
             });
             commonTileMovable = [intersection(allyMovableLocation, enemyMovableLocation)];
             commonTileMovable = commonTileMovable[0];
@@ -346,24 +310,42 @@ function userTurn() {
 }
 
 function enemyTurn() {
-  if (enemyTiles.length > 0) {
-    console.log(commonTileMovable.length);
+  /*allyTiles.forEach(function(item) {
+    var num = 0;
+    var allyCanMove = [];
+    while (allyCanMove.length > 0) {
+      allyCanMove.pop();
+    }
+    var a = allyTiles[allyTiles.indexOf(item)];
+    console.log(a);
+    allyCanMove = [a+1, a-1, a+6, a-6];
+    allyCanMove.forEach(function(canMove) {
+      console.log(allyCanMove);
+      if ($('#c'+canMove).attr('class') != 'empty') {
+        num++;
+      }
+      if (num == 4) {
+        alert('You win!');
+      }
+    });
+  });*/
+  if (enemyTiles.length == 6) {
     var tileToMove = commonTileMovable[random(0, commonTileMovable.length)];
-    console.log('tileToMove: ', tileToMove);
     surrounding = [tileToMove +1, tileToMove-1, tileToMove+6, tileToMove-6];
     surrounding.forEach(function(item) {
-      if ($('#c'+item).attr('class') != 'enemy') {
+      if (($('#c'+item).attr('class') == 'empty') || ($('#c'+item).attr('class') == 'ally')) {
         removeFromArray(surrounding, item);
       }
     });
-    console.log('surrounding: ', surrounding);
+    console.log(surrounding);
     var selectedEnemy = surrounding[random(0, surrounding.length)];
     var session = db.ref('game/session');
-    session.child('c'+selectedEnemy).set('empty');
-    session.child('c'+tileToMove).set('enemy').then(function() {
+    session.child('c'+selectedEnemy).set('empty').then(function() {
+      session.child('c'+tileToMove).set('enemy');
       userTurn();
     });
   } else {
+    responsiveVoice.speak('Well played. You win!');
     alert('game over!');
   }
 }
