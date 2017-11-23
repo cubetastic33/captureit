@@ -190,7 +190,7 @@ function usersTurn() {
             $('.enemy').each(function() {
               enemyTiles.push(this.id);
             });
-            enemysTurn(true);;
+            enemysTurn(true);
           });
         } else {
           session.child($('.selected').attr('id')).set('ally');
@@ -259,8 +259,8 @@ function userTurn() {
         var e = a-6;
         var session = db.ref('game/session');
         if ((currentId == b) || (currentId == c) || (currentId == d) || (currentId == e)) {
-          session.child($('.selected').attr('id')).set('empty').then(function() {
-            session.child(id).set('ally');
+          session.child($('.selected').attr('id')).set('empty');
+          session.child(id).set('ally').then(function() {
             while (enemyTiles.length > 0) {
               enemyTiles.pop();
             }
@@ -310,25 +310,6 @@ function userTurn() {
 }
 
 function enemyTurn() {
-  /*allyTiles.forEach(function(item) {
-    var num = 0;
-    var allyCanMove = [];
-    while (allyCanMove.length > 0) {
-      allyCanMove.pop();
-    }
-    var a = allyTiles[allyTiles.indexOf(item)];
-    console.log(a);
-    allyCanMove = [a+1, a-1, a+6, a-6];
-    allyCanMove.forEach(function(canMove) {
-      console.log(allyCanMove);
-      if ($('#c'+canMove).attr('class') != 'empty') {
-        num++;
-      }
-      if (num == 4) {
-        alert('You win!');
-      }
-    });
-  });*/
   if (enemyTiles.length == 6) {
     var tileToMove = commonTileMovable[random(0, commonTileMovable.length)];
     surrounding = [tileToMove +1, tileToMove-1, tileToMove+6, tileToMove-6];
@@ -337,8 +318,8 @@ function enemyTurn() {
         removeFromArray(surrounding, item);
       }
     });
-    console.log(surrounding);
     var selectedEnemy = surrounding[random(0, surrounding.length)];
+    console.log(selectedEnemy);
     var session = db.ref('game/session');
     session.child('c'+selectedEnemy).set('empty').then(function() {
       session.child('c'+tileToMove).set('enemy');
