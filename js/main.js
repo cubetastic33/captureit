@@ -109,8 +109,8 @@ function initialize() {
     }
     $('#introMsg').text('\
     Welcome to Capture it! The objective of this game is to use your tiles to surround \
-    all enemy tiles (in red) in right, left, top, and bottom sides with your ally tiles \
-    (in blue). Simple, right? All tiles can move any number of tiles in right, left, top, \
+    any one enemy tile (in red) in right, left, top, and bottom sides with your ally tiles \
+    (in blue). Simple, right? All tiles can move 1 tile in right, left, top, \
     or bottom directions. You are allowed to play with a friend, with whom you can \
     communicate using chat.\
     ');
@@ -150,38 +150,13 @@ function usersTurn() {
         var d = a+6;
         var e = a-6;
         var session = db.ref('game/session');
-        var edge = [0, 1, 2, 3, 4, 5, 11, 17, 23, 29, 35, 34, 33, 32, 31, 30, 24, 18, 12, 6];
+        var edge = [0, 1, 2, 3, 4, 5, 6, 12, 18, 24, 30, 11, 17, 23, 29, 35, 34, 33, 32, 31];
         edge.forEach(function(item) {
           var existingClass = $('#c'+item).attr('class');
           session.child($('#c'+item).attr('id')).set(existingClass+' exception');
         });
 
-        if ($(this).attr('class') == 'exception') {
-          alert('This is an edge piece, still under developement.');
-          if ((currentId%6 == 17) && (currentId == c)) {
-            usersTurn();
-          } /*else if ((currentId%6 == 5) && (currentId == b )) {
-            usersTurn();
-          } else if (((currentId == 1) || (currentId == 2) || (currentId == 3) || (currentId == 4)  && (currentId == c))) {
-            alert("Invalid Move, Please move the tile to any of the adjacent empty tiles in the 4 major directions");
-            usersTurn();
-          } else if((currentClass == 'empty') && ((currentId == 31) || (currentId == 32) || (currentId == 33) || (currentId == 34)  && (currentId == d))) {
-            alert("Invalid Move, Please move the tile to any of the adjacent empty tiles in the 4 major directions");
-            usersTurn();
-          } else if((currentClass == 'empty') && ((currentId == 0) && ((currentId == c) || (currentId ==e) ) ) ) {
-            alert("Invalid Move, Please move the tile to any of the adjacent empty tiles in the 4 major directions");
-            usersTurn();
-          } else if ((currentId == 5) && ((currentId == b) || (currentId == e))) {
-            alert("Invalid Move, Please move the tile to any of the adjacent empty tiles in the 4 major directions");
-            usersTurn();
-          } else if ((currentId == 35)  && ((currentId == d) || (currentId == b))) {
-            alert("Invalid Move, Please move the tile to any of the adjacent empty tiles in the 4 major directions");
-            usersTurn();
-          } else if ((currentId == d) || (currentId == c)) {
-            alert("Invalid Move, Please move the tile to any of the adjacent empty tiles in the 4 major directions");
-            usersTurn();
-          }*/
-        } else if ((currentId == b) || (currentId == c) || (currentId == d) || (currentId == e)) {
+        if ((currentId == b) || (currentId == c) || (currentId == d) || (currentId == e)) {
           session.child($('.selected').attr('id')).set('empty').then(function() {
             session.child(id).set('ally');
             while (enemyTiles.length > 0) {
@@ -205,6 +180,10 @@ function usersTurn() {
 }
 
 function enemysTurn(fromUsersTurn) {
+  $('.enemy').each(function(item) {
+    console.log(item);
+    var surrounded = [];
+  });
   if (enemyTiles.length > 0) {
     var selectedEnemy = enemyTiles[random(0, enemyTiles.length)];
     var locId = selectedEnemy.substr(1, selectedEnemy.length);
@@ -258,9 +237,14 @@ function userTurn() {
         var d = a+6;
         var e = a-6;
         var session = db.ref('game/session');
+        var edge = [0, 1, 2, 3, 4, 5, 6, 12, 18, 24, 30, 11, 17, 23, 29, 35, 34, 33, 32, 31];
         if ((currentId == b) || (currentId == c) || (currentId == d) || (currentId == e)) {
           session.child($('.selected').attr('id')).set('empty');
           session.child(id).set('ally').then(function() {
+            edge.forEach(function(item) {
+              var existingClass = $('#c'+item).attr('class');
+              session.child($('#c'+item).attr('id')).set(existingClass+' exception');
+            });
             while (enemyTiles.length > 0) {
               enemyTiles.pop();
             }
@@ -283,7 +267,7 @@ function userTurn() {
             }
             $('.ally').each(function() {
               allyTiles.push(this.id);
-              var idNumAlly= parseInt(this.id.substr(1));
+              var idNumAlly = parseInt(this.id.substr(1));
               allyMovableLocation.push(idNumAlly-1);
               allyMovableLocation.push(idNumAlly+1);
               allyMovableLocation.push(idNumAlly+6);
@@ -315,9 +299,6 @@ function enemyTurn() {
       var canMove = [];
       var surrounded = [item+1, item-1, item+6, item-6];
       surrounded.forEach(function(itemLoc) {
-        if ($('#'+item).attr('class') != 'empty') {
-          cantMove.push(item);
-        }
         if ($('#'+item).attr('class') == 'empty') {
           canMove.push(item);
         }
@@ -329,11 +310,12 @@ function enemyTurn() {
             userTurn();
           });
         } else if ((cantMove.length == 4) && (canMove.length == 0)) {
-          //alert('You win!');
+          alert('You win!');
         }
       });
     });
     var tileToMove = commonTileMovable[random(0, commonTileMovable.length)];
+    alert(tileToMove);
     surrounding = ['c'+(tileToMove+1), 'c'+(tileToMove-1), 'c'+(tileToMove+6), 'c'+(tileToMove-6)];
     var enemySelectList = intersection(enemyTiles, surrounding);
     console.log(enemyTiles);
