@@ -1,5 +1,4 @@
-/*
-  Common stuff in all pages
+/*Common stuff in all pages
 */
 
 body {
@@ -8,6 +7,8 @@ body {
 }
 
 header {
+  animation-name: rubberBand;
+  animation-iteration-count: infinite;
   background-color: #ffc000;
   color: dodgerblue;
   font-family: bungee inline;
@@ -287,4 +288,3 @@ footer {
 #chat-holder footer {
   z-index: 5;
 }
-
