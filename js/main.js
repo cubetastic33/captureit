@@ -153,7 +153,7 @@ function usersTurn() {
         var edge = [0, 1, 2, 3, 4, 5, 6, 12, 18, 24, 30, 11, 17, 23, 29, 35, 34, 33, 32, 31];
         edge.forEach(function(item) {
           var existingClass = $('#c'+item).attr('class');
-          session.child($('#c'+item).attr('id')).set(existingClass+' exception');
+          //session.child($('#c'+item).attr('id')).set(existingClass+' exception');
         });
 
         if ((currentId == b) || (currentId == c) || (currentId == d) || (currentId == e)) {
@@ -180,12 +180,22 @@ function usersTurn() {
 }
 
 function enemysTurn(fromUsersTurn) {
+  var cantMove = [];
   $('.enemy').each(function(item) {
-    console.log(item);
-    var surrounded = [];
+    var surrounded = [item+1, item-1, item+6, item-6];
+    cantMove = [];
+    surrounded.forEach(function(itemLoc) {
+      if (($('#c'+itemLoc).attr('class') == 'ally') && ($('#c'+itemLoc).attr('class') == 'enemy')) {
+        cantMove.push(itemLoc);
+      }
+      if (cantMove.length == 4) {
+        responsiveVoice.speak('Well played, you win!');
+      }
+    });
   });
-  if (enemyTiles.length > 0) {
+  if (cantMove.length < 4) {
     var selectedEnemy = enemyTiles[random(0, enemyTiles.length)];
+    console.log(selectedEnemy);
     var locId = selectedEnemy.substr(1, selectedEnemy.length);
     surrounding = [locId+1, locId-1, locId+6, locId-6];
     enemysMove(selectedEnemy);
