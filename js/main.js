@@ -289,8 +289,7 @@ function userTurn() {
               allyMovableLocation.push(idNumAlly+6);
               allyMovableLocation.push(idNumAlly-6);
             });
-            commonTileMovable = [intersection(allyMovableLocation, enemyMovableLocation)];
-            commonTileMovable = commonTileMovable[0];
+            commonTileMovable = intersection(allyMovableLocation, enemyMovableLocation);
             if (commonTileMovable.length > 0) {
               enemyTurn();
             } else {
@@ -311,17 +310,40 @@ function userTurn() {
 
 function enemyTurn() {
   if (enemyTiles.length == 6) {
-    var tileToMove = commonTileMovable[random(0, commonTileMovable.length)];
-    surrounding = [tileToMove +1, tileToMove-1, tileToMove+6, tileToMove-6];
-    surrounding.forEach(function(item) {
-      if (($('#c'+item).attr('class') == 'empty') || ($('#c'+item).attr('class') == 'ally')) {
-        removeFromArray(surrounding, item);
-      }
+    enemyTiles.forEach(function(item) {
+      var cantMove = [];
+      var canMove = [];
+      var surrounded = [item+1, item-1, item+6, item-6];
+      surrounded.forEach(function(itemLoc) {
+        if ($('#'+item).attr('class') != 'empty') {
+          cantMove.push(item);
+        }
+        if ($('#'+item).attr('class') == 'empty') {
+          canMove.push(item);
+        }
+        if ((cantMove.length == 3) && (canMove.length > 0)) {
+          selectedEnemy = item;
+          var session = db.ref('game/session');
+          session.child('c'+selectedEnemy).set('empty').then(function() {
+            session.child('c'+canMove[0]).set('enemy');
+            userTurn();
+          });
+        } else if ((cantMove.length == 4) && (canMove.length == 0)) {
+          //alert('You win!');
+        }
+      });
     });
-    var selectedEnemy = surrounding[random(0, surrounding.length)];
+    var tileToMove = commonTileMovable[random(0, commonTileMovable.length)];
+    alert(tileToMove);
+    surrounding = ['c'+(tileToMove+1), 'c'+(tileToMove-1), 'c'+(tileToMove+6), 'c'+(tileToMove-6)];
+    var enemySelectList = intersection(enemyTiles, surrounding);
+    console.log(enemyTiles);
+    console.log(surrounding);
+    console.log(enemySelectList);
+    var selectedEnemy = enemySelectList[random(0, enemySelectList.length)];
     console.log(selectedEnemy);
     var session = db.ref('game/session');
-    session.child('c'+selectedEnemy).set('empty').then(function() {
+    session.child(selectedEnemy).set('empty').then(function() {
       session.child('c'+tileToMove).set('enemy');
       userTurn();
     });
