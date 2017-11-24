@@ -334,7 +334,6 @@ function enemyTurn() {
       });
     });
     var tileToMove = commonTileMovable[random(0, commonTileMovable.length)];
-    alert(tileToMove);
     surrounding = ['c'+(tileToMove+1), 'c'+(tileToMove-1), 'c'+(tileToMove+6), 'c'+(tileToMove-6)];
     var enemySelectList = intersection(enemyTiles, surrounding);
     console.log(enemyTiles);
