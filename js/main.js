@@ -1,3 +1,4 @@
+// Initialize Firebase
 var config = {
   apiKey: "AIzaSyCaqneE7oZdUSxsqoh1d2Opa2nl3-cQWRw",
   authDomain: "capture-it-34478.firebaseapp.com",
@@ -182,19 +183,18 @@ function enemysTurn(fromUsersTurn) {
   var cantMove = [];
   $('.enemy').each(function(item) {
     var surrounded = [item+1, item-1, item+6, item-6];
-    cantMove = [];
     surrounded.forEach(function(itemLoc) {
-      if (($('#c'+itemLoc).attr('class') == 'ally') && ($('#c'+itemLoc).attr('class') == 'enemy')) {
+      if (($('#c'+itemLoc).attr('class') == 'ally') || ($('#c'+itemLoc).attr('class') == 'enemy')) {
         cantMove.push(itemLoc);
       }
-      if (cantMove.length == 4) {
-        responsiveVoice.speak('Well played, you win!');
+      if (cantMove.length == 10) {
+        alert('Well played, you win!');
       }
     });
   });
-  if (cantMove.length < 4) {
+  if (enemyTiles.length > 0) {
+    console.log(cantMove);
     var selectedEnemy = enemyTiles[random(0, enemyTiles.length)];
-    console.log(selectedEnemy);
     var locId = selectedEnemy.substr(1, selectedEnemy.length);
     surrounding = [locId+1, locId-1, locId+6, locId-6];
     enemysMove(selectedEnemy);
@@ -252,7 +252,7 @@ function userTurn() {
           session.child(id).set('ally').then(function() {
             edge.forEach(function(item) {
               var existingClass = $('#c'+item).attr('class');
-              session.child($('#c'+item).attr('id')).set(existingClass+' exception');
+              //session.child($('#c'+item).attr('id')).set(existingClass+' exception');
             });
             while (enemyTiles.length > 0) {
               enemyTiles.pop();
@@ -324,7 +324,6 @@ function enemyTurn() {
       });
     });
     var tileToMove = commonTileMovable[random(0, commonTileMovable.length)];
-    alert(tileToMove);
     surrounding = ['c'+(tileToMove+1), 'c'+(tileToMove-1), 'c'+(tileToMove+6), 'c'+(tileToMove-6)];
     var enemySelectList = intersection(enemyTiles, surrounding);
     console.log(enemyTiles);
