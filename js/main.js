@@ -156,8 +156,179 @@ function usersTurn() {
           //session.child($('#c'+item).attr('id')).set(existingClass+' exception');
         });
 
-        if ((currentId == b) || (currentId == c) || (currentId == d) || (currentId == e)) {
+         if(   (currentId == 0) && ( (currentId == b) || (currentId == d ) ) ) {
+        session.child($('.selected').attr('id')).set('empty').then(function() {
+          var spid=$(this).attr('id');
+          session.child(spid).set('ally');
+          while (enemyTiles.length > 0) {
+            enemyTiles.pop();
+          }
+          $('.enemy').each(function() {
+            enemyTiles.push(this.id);
+          });
+
+          enemysTurn(true);;
+          $('.ally').each(function() {
+            var idNumAlly= parseInt(this.id.substr(1));
+            allyMovableLocation.push(idNumAlly-1);
+            allyMovableLocation.push(idNumAlly+1);
+            allyMovableLocation.push(idNumAlly+6);
+            allyMovableLocation.push(idNumAlly-6);
+            allyTiles.push(this.id);
+          });
+        
+        });
+         } else if( (currentId == 5) &&  ( (currentId == c) || (currentId == d)  )  ) {
           session.child($('.selected').attr('id')).set('empty').then(function() {
+            var spid=$(this).attr('id');
+            session.child(spid).set('ally');
+            while (enemyTiles.l+ength > 0) {
+              enemyTiles.pop();
+            }
+            $('.enemy').each(function() {
+              enemyTiles.push(this.id);
+            });
+            enemysTurn(true); $('.ally').each(function() {
+              var idNumAlly= parseInt(this.id.substr(1));
+              allyMovableLocation.push(idNumAlly-1);
+              allyMovableLocation.push(idNumAlly+1);
+              allyMovableLocation.push(idNumAlly+6);
+              allyMovableLocation.push(idNumAlly-6);
+              allyTiles.push(this.id);
+            });
+          
+
+          });
+         } else if( (currentId == 35) &&  ( (currentId == c) || (currentId == e)  )  ) {
+          session.child($('.selected').attr('id')).set('empty').then(function() {
+            var spid=$(this).attr('id');
+            session.child(spid).set('ally');
+            while (enemyTiles.length > 0) {
+              enemyTiles.pop();
+            }
+            $('.enemy').each(function() {
+              enemyTiles.push(this.id);
+            });
+            enemysTurn(true);;  $('.ally').each(function() {
+              var idNumAlly= parseInt(this.id.substr(1));
+              allyMovableLocation.push(idNumAlly-1);
+              allyMovableLocation.push(idNumAlly+1);
+              allyMovableLocation.push(idNumAlly+6);
+              allyMovableLocation.push(idNumAlly-6);
+              allyTiles.push(this.id);
+            });
+      
+
+          });
+         } else if( (currentId == 30) &&  ( (currentId == b) || (currentId == e)  )  ) {
+          session.child($('.selected').attr('id')).set('empty').then(function() {
+            var spid=$(this).attr('id');
+            session.child(spid).set('ally');
+            while (enemyTiles.length > 0) {
+              enemyTiles.pop();
+            }
+            $('.enemy').each(function() {
+              enemyTiles.push(this.id);
+            });
+            enemysTurn(true);;
+            $('.ally').each(function() {
+              var idNumAlly= parseInt(this.id.substr(1));
+              allyMovableLocation.push(idNumAlly-1);
+              allyMovableLocation.push(idNumAlly+1);
+              allyMovableLocation.push(idNumAlly+6);
+              allyMovableLocation.push(idNumAlly-6);
+              allyTiles.push(this.id);
+            });
+          
+          });
+         } else if( ( (currentId%6 == 0) && (currentId >0) && (currentId <30)   ) &&  ( (currentId == d) || (currentId == e)  ||  (currentId == b)  )  ) {
+          session.child($('.selected').attr('id')).set('empty').then(function() {
+            var spid=$(this).attr('id');
+            session.child(spid).set('ally');
+            while (enemyTiles.length > 0) {
+              enemyTiles.pop();
+            }
+            $('.enemy').each(function() {
+              enemyTiles.push(this.id);
+            });
+            enemysTurn(true);;
+            $('.ally').each(function() {
+              var idNumAlly= parseInt(this.id.substr(1));
+              allyMovableLocation.push(idNumAlly-1);
+              allyMovableLocation.push(idNumAlly+1);
+              allyMovableLocation.push(idNumAlly+6);
+              allyMovableLocation.push(idNumAlly-6);
+              allyTiles.push(this.id);
+            });
+          
+          });
+         } else if( ( (currentId%6 == 5) && (currentId >5) && (currentId <35)   ) &&  ( (currentId == d) || (currentId == e)  ||  (currentId == c)  )  ) {
+          session.child($('.selected').attr('id')).set('empty').then(function() {
+            var spid=$(this).attr('id');
+            session.child(spid).set('ally');
+            while (enemyTiles.length > 0) {
+              enemyTiles.pop();
+            }
+            $('.enemy').each(function() {
+              enemyTiles.push(this.id);
+            });
+            enemysTurn(true);;
+            $('.ally').each(function() {
+              var idNumAlly= parseInt(this.id.substr(1));
+              allyMovableLocation.push(idNumAlly-1);
+              allyMovableLocation.push(idNumAlly+1);
+              allyMovableLocation.push(idNumAlly+6);
+              allyMovableLocation.push(idNumAlly-6);
+              allyTiles.push(this.id);
+            });
+          
+          });
+         } else if(      ( (currentId == 1) || (currentId == 2) || (currentId == 3) || (currentId == 4) )   &&   (   (currentId == b) || (currentId == c) || (currentId == d)  )   ) {
+          session.child($('.selected').attr('id')).set('empty').then(function() {
+            var spid=$(this).attr('id');
+            session.child(spid).set('ally');
+            while (enemyTiles.length > 0) {
+              enemyTiles.pop();
+            }
+            $('.enemy').each(function() {
+              enemyTiles.push(this.id);
+            });
+            enemysTurn(true);;
+            $('.ally').each(function() {
+              var idNumAlly= parseInt(this.id.substr(1));
+              allyMovableLocation.push(idNumAlly-1);
+              allyMovableLocation.push(idNumAlly+1);
+              allyMovableLocation.push(idNumAlly+6);
+              allyMovableLocation.push(idNumAlly-6);
+              allyTiles.push(this.id);
+            });
+          
+          });
+         } else if(      ( (currentId == 31) || (currentId == 32) || (currentId == 33) || (currentId == 34) )   &&   (   (currentId == b) || (currentId == c) || (currentId == e)  )   ) {
+          session.child($('.selected').attr('id')).set('empty').then(function() {
+            var spid=$(this).attr('id');
+            session.child('#c0').set('ally');
+            while (enemyTiles.length > 0) {
+              enemyTiles.pop();
+            }
+            $('.enemy').each(function() {
+              enemyTiles.push(this.id);
+            });
+            enemysTurn(true);
+            $('.ally').each(function() {
+              var idNumAlly= parseInt(this.id.substr(1));
+              allyMovableLocation.push(idNumAlly-1);
+              allyMovableLocation.push(idNumAlly+1);
+              allyMovableLocation.push(idNumAlly+6);
+              allyMovableLocation.push(idNumAlly-6);
+              allyTiles.push(this.id);
+            });
+          
+          });     } 
+     
+        else if ((currentId == b) || (currentId == c) || (currentId == d) || (currentId == e)) {
+          session.child($('.selected').attr('id')).set('empty').then(function() {
+            var spid=$(this).attr('id');
             session.child(id).set('ally');
             while (enemyTiles.length > 0) {
               enemyTiles.pop();
