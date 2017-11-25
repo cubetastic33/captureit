@@ -1,4 +1,3 @@
-// Initialize Firebase
 var config = {
   apiKey: "AIzaSyCaqneE7oZdUSxsqoh1d2Opa2nl3-cQWRw",
   authDomain: "capture-it-34478.firebaseapp.com",
@@ -156,9 +155,8 @@ function usersTurn() {
           //session.child($('#c'+item).attr('id')).set(existingClass+' exception');
         });
 
-       if ((currentId == b) || (currentId == c) || (currentId == d) || (currentId == e)) {
+        if ((currentId == b) || (currentId == c) || (currentId == d) || (currentId == e)) {
           session.child($('.selected').attr('id')).set('empty').then(function() {
-            var spid=$(this).attr('id');
             session.child(id).set('ally');
             while (enemyTiles.length > 0) {
               enemyTiles.pop();
