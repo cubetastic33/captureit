@@ -408,7 +408,30 @@ function enemyTurn() {
       });
     });
     var tileToMove = commonTileMovable[random(0, commonTileMovable.length)];
-    surrounding = ['c'+(tileToMove+1), 'c'+(tileToMove-1), 'c'+(tileToMove+6), 'c'+(tileToMove-6)];
+    if (exceptions.indexOf(tileToMove) > -1) {
+      if (tileToMove == 'c0') {surrounding = c0}
+      else if (tileToMove == 'c1') {surrounding = c1}
+      else if (tileToMove == 'c2') {surrounding = c2}
+      else if (tileToMove == 'c3') {surrounding = c3}
+      else if (tileToMove == 'c4') {surrounding = c4}
+      else if (tileToMove == 'c5') {surrounding = c5}
+      else if (tileToMove == 'c6') {surrounding = c6}
+      else if (tileToMove == 'c11') {surrounding = c11}
+      else if (tileToMove == 'c12') {surrounding = c12}
+      else if (tileToMove == 'c17') {surrounding = c17}
+      else if (tileToMove == 'c18') {surrounding = c18}
+      else if (tileToMove == 'c23') {surrounding = c23}
+      else if (tileToMove == 'c24') {surrounding = c24}
+      else if (tileToMove == 'c29') {surrounding = c29}
+      else if (tileToMove == 'c30') {surrounding = c30}
+      else if (tileToMove == 'c31') {surrounding = c31}
+      else if (tileToMove == 'c32') {surrounding = c32}
+      else if (tileToMove == 'c33') {surrounding = c33}
+      else if (tileToMove == 'c34') {surrounding = c34}
+      else if (tileToMove == 'c35') {surrounding = c35}
+    } else {
+      surrounding = ['c'+(tileToMove+1), 'c'+(tileToMove-1), 'c'+(tileToMove+6), 'c'+(tileToMove-6)];
+    }
     var enemySelectList = intersection(enemyTiles, surrounding);
     console.log(enemyTiles);
     console.log(surrounding);
