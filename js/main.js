@@ -20,7 +20,7 @@ function removeFromArray(array, element) {
   array.splice(index, 1);
 }
 
-if (signin == true) {
+if (signin == true) {0
   // FirebaseUI config.
   var uiConfig = {
     signInSuccessUrl: 'index.html',
@@ -93,13 +93,34 @@ function updateClasses() {
   });
 }
 
-var moving = false;
 var enemyTiles = [];
 var allyTiles = [];
 var surrounding = [];
 var allyMovableLocation = [];
 var enemyMovableLocation = [];
 var commonTileMovable = [];
+var exceptions = ['c0', 'c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c12', 'c18', 'c24', 'c30', 'c11', 'c17', 'c23', 'c29',
+ 'c35', 'c34', 'c33', 'c32', 'c31'];
+var c0 = ['c1', 'c6'];
+var c5 = ['c4', 'c11'];
+var c30 = ['c24', 'c31'];
+var c35 = ['c34', 'c29'];
+var c1 = ['c0', 'c2', 'c7'];
+var c2 = ['c1', 'c3', 'c8'];
+var c3 = ['c2', 'c4', 'c9'];
+var c4 = ['c3', 'c5', 'c10'];
+var c6 = ['c0', 'c7', 'c12'];
+var c11 = ['c5', 'c10', 'c17'];
+var c12 = ['c6', 'c13', 'c18'];
+var c17 = ['c11', 'c16', 'c23'];
+var c18 = ['c12', 'c19', 'c24'];
+var c23 = ['c17', 'c22', 'c29'];
+var c24 = ['c18', 'c19', 'c30'];
+var c29 = ['c23', 'c28', 'c35'];
+var c31 = ['c25', 'c30', 'c32'];
+var c32 = ['c26', 'c31', 'c33'];
+var c33 = ['c27', 'c32', 'c34'];
+var c34 = ['c28', 'c33', 'c35'];
 
 function initialize() {
   if (level == 'userVsRandom') {
@@ -142,6 +163,7 @@ function usersTurn() {
         var session = db.ref('game/session');
         session.child($(this).attr('id')).set('ally selected');
       } else if (($('.selected').attr('id')) && ($(this).attr('class') == 'empty')) {
+        var session = db.ref('game/session');        
         var id = $(this).attr('id');
         var currentId = parseInt($(this).attr('id').substr(1));
         var a = parseInt($('.selected').attr('id').substr(1));
@@ -149,14 +171,35 @@ function usersTurn() {
         var c = a-1;
         var d = a+6;
         var e = a-6;
-        var session = db.ref('game/session');
-        var edge = [0, 1, 2, 3, 4, 5, 6, 12, 18, 24, 30, 11, 17, 23, 29, 35, 34, 33, 32, 31];
-        edge.forEach(function(item) {
-          var existingClass = $('#c'+item).attr('class');
-          //session.child($('#c'+item).attr('id')).set(existingClass+' exception');
-        });
-
-        if ((currentId == b) || (currentId == c) || (currentId == d) || (currentId == e)) {
+        var ok = false;
+        console.log($('.selected'));
+        
+        if (exceptions.indexOf($('.selected').attr('id')) > -1) {
+          var selectedId = $('.selected').attr('id');
+          var id = $(this).attr('id');
+          currentId = false;
+          if ((selectedId == 'c0') && (c0.indexOf(id) > -1)) {ok = true}
+          else if ((selectedId == 'c1') && (c1.indexOf(id) > -1)) {ok = true}
+          else if ((selectedId == 'c2') && (c2.indexOf(id) > -1)) {ok = true}
+          else if ((selectedId == 'c3') && (c3.indexOf(id) > -1)) {ok = true}
+          else if ((selectedId == 'c4') && (c4.indexOf(id) > -1)) {ok = true}
+          else if ((selectedId == 'c5') && (c5.indexOf(id) > -1)) {ok = true}
+          else if ((selectedId == 'c6') && (c6.indexOf(id) > -1)) {ok = true}
+          else if ((selectedId == 'c11') && (c11.indexOf(id) > -1)) {ok = true}
+          else if ((selectedId == 'c12') && (c12.indexOf(id) > -1)) {ok = true}
+          else if ((selectedId == 'c17') && (c17.indexOf(id) > -1)) {ok = true}
+          else if ((selectedId == 'c18') && (c18.indexOf(id) > -1)) {ok = true}
+          else if ((selectedId == 'c23') && (c23.indexOf(id) > -1)) {ok = true}
+          else if ((selectedId == 'c24') && (c24.indexOf(id) > -1)) {ok = true}
+          else if ((selectedId == 'c29') && (c29.indexOf(id) > -1)) {ok = true}
+          else if ((selectedId == 'c30') && (c30.indexOf(id) > -1)) {ok = true}
+          else if ((selectedId == 'c31') && (c31.indexOf(id) > -1)) {ok = true}
+          else if ((selectedId == 'c32') && (c32.indexOf(id) > -1)) {ok = true}
+          else if ((selectedId == 'c33') && (c33.indexOf(id) > -1)) {ok = true}
+          else if ((selectedId == 'c34') && (c34.indexOf(id) > -1)) {ok = true}
+          else if ((selectedId == 'c35') && (c35.indexOf(id) > -1)) {ok = true}
+        }
+        if ((ok == true) || (currentId == b) || (currentId == c) || (currentId == d) || (currentId == e)) {
           session.child($('.selected').attr('id')).set('empty').then(function() {
             session.child(id).set('ally');
             while (enemyTiles.length > 0) {
@@ -192,15 +235,34 @@ function enemysTurn(fromUsersTurn) {
       }
     });
   });
-  if (enemyTiles.length > 0) {
-    console.log(cantMove);
-    var selectedEnemy = enemyTiles[random(0, enemyTiles.length)];
-    var locId = selectedEnemy.substr(1, selectedEnemy.length);
-    surrounding = [locId+1, locId-1, locId+6, locId-6];
-    enemysMove(selectedEnemy);
+  var selectedEnemy = enemyTiles[random(0, enemyTiles.length)];
+  console.log(selectedEnemy);
+  var locId = selectedEnemy.substr(1, selectedEnemy.length);
+  if (exceptions.indexOf(selectedEnemy) > -1) {
+    if (selectedEnemy == 'c0') {surrounding = c0}
+    else if (selectedEnemy == 'c1') {surrounding = c1}
+    else if (selectedEnemy == 'c2') {surrounding = c2}
+    else if (selectedEnemy == 'c3') {surrounding = c3}
+    else if (selectedEnemy == 'c4') {surrounding = c4}
+    else if (selectedEnemy == 'c5') {surrounding = c5}
+    else if (selectedEnemy == 'c6') {surrounding = c6}
+    else if (selectedEnemy == 'c11') {surrounding = c11}
+    else if (selectedEnemy == 'c12') {surrounding = c12}
+    else if (selectedEnemy == 'c17') {surrounding = c17}
+    else if (selectedEnemy == 'c18') {surrounding = c18}
+    else if (selectedEnemy == 'c23') {surrounding = c23}
+    else if (selectedEnemy == 'c24') {surrounding = c24}
+    else if (selectedEnemy == 'c29') {surrounding = c29}
+    else if (selectedEnemy == 'c30') {surrounding = c30}
+    else if (selectedEnemy == 'c31') {surrounding = c31}
+    else if (selectedEnemy == 'c32') {surrounding = c32}
+    else if (selectedEnemy == 'c33') {surrounding = c33}
+    else if (selectedEnemy == 'c34') {surrounding = c34}
+    else if (selectedEnemy == 'c35') {surrounding = c35}
   } else {
-    alert('game over!');
+    surrounding = [locId+1, locId-1, locId+6, locId-6];
   }
+  enemysMove(selectedEnemy);
 }
 
 function enemysMove(selectedEnemy, fromUsersTurn) {
@@ -241,19 +303,41 @@ function userTurn() {
         var id = $(this).attr('id');
         var currentId = parseInt($(this).attr('id').substr(1));
         var a = parseInt($('.selected').attr('id').substr(1));
+        var ok = false;
         var b = a+1;
         var c = a-1;
         var d = a+6;
         var e = a-6;
         var session = db.ref('game/session');
-        var edge = [0, 1, 2, 3, 4, 5, 6, 12, 18, 24, 30, 11, 17, 23, 29, 35, 34, 33, 32, 31];
-        if ((currentId == b) || (currentId == c) || (currentId == d) || (currentId == e)) {
+
+        if (exceptions.indexOf($('.selected').attr('id')) > -1) {
+          var selectedId = $('.selected').attr('id');
+          var id = $(this).attr('id');
+          currentId = false;
+          if ((selectedId == 'c0') && (c0.indexOf(id) > -1)) {ok = true}
+          else if ((selectedId == 'c1') && (c1.indexOf(id) > -1)) {ok = true}
+          else if ((selectedId == 'c2') && (c2.indexOf(id) > -1)) {ok = true}
+          else if ((selectedId == 'c3') && (c3.indexOf(id) > -1)) {ok = true}
+          else if ((selectedId == 'c4') && (c4.indexOf(id) > -1)) {ok = true}
+          else if ((selectedId == 'c5') && (c5.indexOf(id) > -1)) {ok = true}
+          else if ((selectedId == 'c6') && (c6.indexOf(id) > -1)) {ok = true}
+          else if ((selectedId == 'c11') && (c11.indexOf(id) > -1)) {ok = true}
+          else if ((selectedId == 'c12') && (c12.indexOf(id) > -1)) {ok = true}
+          else if ((selectedId == 'c17') && (c17.indexOf(id) > -1)) {ok = true}
+          else if ((selectedId == 'c18') && (c18.indexOf(id) > -1)) {ok = true}
+          else if ((selectedId == 'c23') && (c23.indexOf(id) > -1)) {ok = true}
+          else if ((selectedId == 'c24') && (c24.indexOf(id) > -1)) {ok = true}
+          else if ((selectedId == 'c29') && (c29.indexOf(id) > -1)) {ok = true}
+          else if ((selectedId == 'c30') && (c30.indexOf(id) > -1)) {ok = true}
+          else if ((selectedId == 'c31') && (c31.indexOf(id) > -1)) {ok = true}
+          else if ((selectedId == 'c32') && (c32.indexOf(id) > -1)) {ok = true}
+          else if ((selectedId == 'c33') && (c33.indexOf(id) > -1)) {ok = true}
+          else if ((selectedId == 'c34') && (c34.indexOf(id) > -1)) {ok = true}
+          else if ((selectedId == 'c35') && (c35.indexOf(id) > -1)) {ok = true}
+        }
+        if ((ok === true) || (currentId == b) || (currentId == c) || (currentId == d) || (currentId == e)) {
           session.child($('.selected').attr('id')).set('empty');
           session.child(id).set('ally').then(function() {
-            edge.forEach(function(item) {
-              var existingClass = $('#c'+item).attr('class');
-              //session.child($('#c'+item).attr('id')).set(existingClass+' exception');
-            });
             while (enemyTiles.length > 0) {
               enemyTiles.pop();
             }
@@ -302,7 +386,7 @@ function userTurn() {
 }
 
 function enemyTurn() {
-  if (enemyTiles.length == 6) {
+  if (enemyTiles.length) {
     enemyTiles.forEach(function(item) {
       var cantMove = [];
       var canMove = [];
