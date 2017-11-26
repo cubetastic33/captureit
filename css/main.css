@@ -111,6 +111,8 @@ footer {
   position: absolute;
   right: 4vw;
   overflow: hidden;
+	 background-color: orange;
+	
 }
 
 .empty {
