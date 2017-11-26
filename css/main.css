@@ -126,6 +126,7 @@ footer {
   border: 1px solid #ffc000;
   height: 98px;
   width: 98px;
+	border-radius:100%;
 }
 
 .enemy {
@@ -133,6 +134,7 @@ footer {
   border: 1px solid #ffc000;
   height: 98px;
   width: 98px;
+	border-radius:100%;
 }
 
 .selected {
