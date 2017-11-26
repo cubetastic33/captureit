@@ -9,7 +9,7 @@ body {
 
 header {
   background-color: #ffc000;
-  color: dodgerblue;
+   color: dodgerblue;
   font-family: bungee inline;
   font-size: 2em;
   padding: 1px 1em;
@@ -111,7 +111,7 @@ footer {
   position: absolute;
   right: 4vw;
   overflow: hidden;
-	 background-color: orange;
+	background-color: orange;
 	
 }
 
@@ -125,7 +125,7 @@ footer {
 .ally {
   background-color: navy;
   border: 1px solid #ffc000;
-  border-radius: 100%;
+  border-radius: 25%;
   height: 98px;
   width: 98px;
 }
@@ -133,7 +133,7 @@ footer {
 .enemy {
   background-color: red;
   border: 1px solid #ffc000;
-  border-radius: 100%;
+  border-radius: 25%;
   height: 98px;
   width: 98px;
 }
