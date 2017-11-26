@@ -114,7 +114,7 @@ footer {
 }
 
 .empty {
-  background-color: rgb(138, 138, 192);
+  background-color: #777;
   border: 1px solid #ffc000;
   height: 98px;
   width: 98px;
