@@ -386,7 +386,7 @@ function userTurn() {
 }
 
 function enemyTurn() {
-  if (enemyTiles.length) {
+  if (enemyTiles.length == 6) {
     enemyTiles.forEach(function(item) {
       var cantMove = [];
       var canMove = [];
@@ -439,12 +439,14 @@ function enemyTurn() {
     var selectedEnemy = enemySelectList[random(0, enemySelectList.length)];
     console.log(selectedEnemy);
     var session = db.ref('game/session');
-    session.child(selectedEnemy).set('empty').then(function() {
-      session.child('c'+tileToMove).set('enemy');
+    session.child(selectedEnemy).set('empty');
+    session.child('c'+tileToMove).set('enemy').then(function() {
       userTurn();
     });
-  } else {
+  } else if (enemyTiles.length > 6) {
     responsiveVoice.speak('Well played. You win!');
-    alert('game over!');
+    alert('Ha Ha ha! I made a special move, as you seem to be talented.');
+  } else {
+    alert('Well, I\'ve made the game easier for you.');
   }
 }
