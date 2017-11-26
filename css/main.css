@@ -122,14 +122,14 @@ footer {
 }
 
 .ally {
-  background-color: navy;
+  background-color: green;
   border: 1px solid #ffc000;
   height: 98px;
   width: 98px;
 }
 
 .enemy {
-  background-color: red;
+  background-color: orange;
   border: 1px solid #ffc000;
   height: 98px;
   width: 98px;
