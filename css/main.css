@@ -139,7 +139,7 @@ footer {
 }
 
 .selected {
-  filter: brightness(65%);
+  filter: brightness(45%);
 }
 
 #c1, #c7, #c13, #c19, #c25, #c31 {
